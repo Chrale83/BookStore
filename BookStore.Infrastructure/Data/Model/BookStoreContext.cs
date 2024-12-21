@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using BookStore.domain;
 using System.Reflection.Emit;
 using System.Reflection.Metadata;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
 
 
 namespace BookStore.Infrastructure.Data.Model;
@@ -34,8 +36,24 @@ public partial class BookStoreContext : DbContext
     public virtual DbSet<TitlesPerAuthor> TitlesPerAuthors { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Initial Catalog=labb1_bokhandel;Integrated Security=True;Trust Server Certificate=True;Server SPN=localhost");
+    {
+        var config = new ConfigurationBuilder().AddUserSecrets<BookStoreContext>().Build();
+
+        var connectionstring = new SqlConnectionStringBuilder()
+        {
+            ServerSPN = config["ServerName"],
+            InitialCatalog = config["DataBaseName"],
+            TrustServerCertificate = true,
+            IntegratedSecurity = true
+        }.ToString();
+
+        optionsBuilder.UseSqlServer(connectionstring);
+
+        //var connectionstring = config["ConnectionString"];
+        //optionsBuilder.UseSqlServer("connectionstring");
+        //optionsBuilder.UseSqlServer("Initial Catalog=labb1_bokhandel;Integrated Security=True;Trust Server Certificate=True;Server SPN=localhost");
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
