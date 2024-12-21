@@ -9,20 +9,20 @@
         xmlns:local1="clr-namespace:BookStore.Presentation.ViewModels"
         Title="Book Store Manager" Height="400" Width="700">
     <Window.DataContext>
-        <local:MainViewModel />
+        <local1:MainViewModel />
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <View:TopMainView Grid.Row="0"/>
+        <View:TopMainView Grid.Row="0" DataContext="{Binding MenuViewModel}"/>
         <Grid Grid.Row="1" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <View:MenuView Grid.Column="0" VerticalAlignment="Stretch"/>
+            <View:MenuView Grid.Column="0" VerticalAlignment="Stretch" DataContext="{Binding MenuViewModel}"/>
             <View:InventoryView Grid.Column="1" VerticalAlignment="Stretch"/>
         </Grid>
     </Grid>

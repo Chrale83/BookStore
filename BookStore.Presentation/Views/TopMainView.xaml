@@ -8,12 +8,13 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:MenuViewModel, IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="700" Background="{StaticResource MainAppColor}">
-    <UserControl.DataContext>
-        <viewmodels:MenuViewModel/>
-    </UserControl.DataContext>
+    
 
     <Grid>
-        <TextBlock  Text="{Binding SelectedStore.Name}"/>
+        <TextBlock Margin="3,0,0,0" FontSize="17" Padding="2">
+            <Run Text="Store:"/>
+            <Run Text="{Binding SelectedStore.Name}"/>
+        </TextBlock>
 
     </Grid>
 </UserControl>
