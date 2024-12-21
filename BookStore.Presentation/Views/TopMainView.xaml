@@ -5,11 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookStore.Presentation.Views" 
              xmlns:viewmodels="clr-namespace:BookStore.Presentation.ViewModels" 
-             d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance Type=viewmodels:MenuViewModel, IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="700" Background="{StaticResource MainAppColor}">
+    <UserControl.DataContext>
+        <viewmodels:MenuViewModel/>
+    </UserControl.DataContext>
+
     <Grid>
-        <TextBlock Text="{Binding SelectedStore.Name}" Margin="4,4,0,2" FontSize="18" FontWeight="Bold"/>
+        <TextBlock  Text="{Binding SelectedStore.Name}"/>
 
     </Grid>
 </UserControl>

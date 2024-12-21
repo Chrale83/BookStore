@@ -1,11 +1,6 @@
 ﻿using BookStore.domain;
 using BookStore.Infrastructure.Data.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookStore.Presentation.ViewModels
 {
@@ -20,14 +15,23 @@ namespace BookStore.Presentation.ViewModels
                 _selectedStore = value;
                 OnPropertyChanged();
                 //LoadStoreInventory();
+                
+                OnPropertyChanged(nameof(BookStoreInventories));
+                OnPropertyChanged(nameof(Books));
             }
         }
 
-        private void LoadStoreInventory()
-        {
-            if (_selectedStore == null) return;
+        public ObservableCollection<Book> Books { get; set; }
+        public ObservableCollection<BookStoreInventory> BookStoreInventories { get; set; } 
+
+        //private void LoadStoreInventory()
+        //{
+        //    using var db = new BookStoreContext();
+        //    BookStoreInventories = new ObservableCollection<BookStoreInventory>(
+        //        db.BookStoreInventories.Where(i => i.StoreId == SelectedStore.Id). //PLOCKA UT STORECOUNTEN
             
-        }
+        //}
+
         
     }
 }

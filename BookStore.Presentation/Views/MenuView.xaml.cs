@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using BookStore.Presentation.ViewModels;
+using System.Windows.Controls;
 
 namespace BookStore.Presentation.Views
 {
@@ -11,6 +12,8 @@ namespace BookStore.Presentation.Views
         {
             InitializeComponent();
             //DataContext = App.Current.MainWindow.DataContext;
+            //this.DataContext = new MenuViewModel();
+
         }
     }
 }

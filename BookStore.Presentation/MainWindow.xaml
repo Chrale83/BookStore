@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookStore.Presentation"
         mc:Ignorable="d"
-        xmlns:View="clr-namespace:BookStore.Presentation.Views"
+        xmlns:View="clr-namespace:BookStore.Presentation.Views" 
+        xmlns:local1="clr-namespace:BookStore.Presentation.ViewModels"
         Title="Book Store Manager" Height="400" Width="700">
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
