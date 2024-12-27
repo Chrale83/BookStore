@@ -17,8 +17,12 @@
                       DisplayMemberPath="Name"
                       SelectedItem="{Binding SelectedStore}"
                       />
-            <Button Content="Inventory" Margin="4,4,4,0"/>
-            <Button Content="Add book" Margin="4,4,4,0"/>
+            <Button Content="Inventory" Margin="4,4,4,0" 
+                    Command="{Binding DataContext.ShowInventoryCommand, 
+                              RelativeSource={RelativeSource AncestorType=Window}}"  />
+            <Button Content="Add book" Margin="4,4,4,0" 
+                    Command="{Binding DataContext.ShowAddBookCommand, 
+                              RelativeSource={RelativeSource AncestorType=Window}}"  />
             <Button Content="Quit" Margin="4,200,4,0"/>
             <TextBlock Text="{Binding SelectedStore.Name}"/>
 

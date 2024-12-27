@@ -1,18 +1,15 @@
 ﻿using BookStore.domain;
 using BookStore.Infrastructure.Data.Model;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.Messaging;
+using BookStore.Presentation.Messages;
 
 namespace BookStore.Presentation.ViewModels
 {
     internal class MenuViewModel : ViewModelBase
     {
         private Store _selectedStore;
-        //Denna klass ska hantera logiken som ligger MenuView.
-        //- Hanterar att det står rätt butiksnamn i topmainview
-        //-Inladdning av "Stores" **
-        //-Byte till "InventoryView"
-        //-Byte till "add book" view
-        //-Avsluta programmet
+        
 
         public ObservableCollection<Store> Stores { get; set; }
         public Store SelectedStore {
@@ -21,6 +18,7 @@ namespace BookStore.Presentation.ViewModels
             {
                 _selectedStore = value;
                 OnPropertyChanged();
+                WeakReferenceMessenger.Default.Send(new SelectedStoreMessage(_selectedStore));
             }
         }
 

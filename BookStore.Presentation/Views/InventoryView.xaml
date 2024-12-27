@@ -5,18 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookStore.Presentation.Views" 
              xmlns:viewmodels="clr-namespace:BookStore.Presentation.ViewModels"
+             
              d:DataContext="{d:DesignInstance Type=viewmodels:InventoryViewModel, IsDesignTimeCreatable=True}"
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
+    <UserControl.DataContext>
+        <viewmodels:InventoryViewModel/>
+    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid Grid.Column="0"  ItemsSource="{Binding Books}"
-                  />
-        <TextBox Grid.Column="1" Background="Aquamarine"/>
+        <DataGrid Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding StoreInventory}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ISBN13" Binding="{Binding Isbn13}"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+                <DataGridTextColumn Header="StoreCount" Binding="{Binding StockCount}"/>
+                <DataGridTextColumn Header="Authors" Binding="{Binding AuthorsNames}"/>
+                
+            </DataGrid.Columns>
+        </DataGrid>
+                  
+        
     </Grid>
 </UserControl>
