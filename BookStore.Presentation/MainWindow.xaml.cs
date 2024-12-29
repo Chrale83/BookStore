@@ -12,7 +12,7 @@ namespace BookStore.Presentation
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            //DataContext = new MainViewModel();
         }
     }
 }

@@ -4,15 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookStore.Presentation.Views" 
-             xmlns:viewmodels="clr-namespace:BookStore.Presentation.ViewModels"
-             
-             d:DataContext="{d:DesignInstance Type=viewmodels:InventoryViewModel, IsDesignTimeCreatable=True}"
-             
+           
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
-    <UserControl.DataContext>
-        <viewmodels:InventoryViewModel/>
-    </UserControl.DataContext>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -24,10 +19,10 @@
                   IsReadOnly="True"
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ISBN13" Binding="{Binding Isbn13}"/>
-                <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
-                <DataGridTextColumn Header="StoreCount" Binding="{Binding StockCount}"/>
-                <DataGridTextColumn Header="Authors" Binding="{Binding AuthorsNames}"/>
+                <DataGridTextColumn Header="ISBN13" Binding="{Binding Isbn13}" Width="auto"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="auto"/>
+                <DataGridTextColumn Header="StoreCount" Binding="{Binding StockCount}" Width="auto"/>
+                <DataGridTextColumn Header="Authors" Binding="{Binding AuthorsNames}" Width="auto"/>
                 
             </DataGrid.Columns>
         </DataGrid>

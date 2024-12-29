@@ -1,8 +1,4 @@
-﻿using BookStore.domain;
-using BookStore.Infrastructure.Data.Model;
-using BookStore.Presentation.Command;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using BookStore.Presentation.Command;
 using System.Windows.Input;
 
 namespace BookStore.Presentation.ViewModels
@@ -28,23 +24,25 @@ namespace BookStore.Presentation.ViewModels
             MenuViewModel = new MenuViewModel();
             InventoryViewModel = new InventoryViewModel();
             AddBookViewModel = new AddBookViewModel();
+            
             SelectedViewModel = InventoryViewModel;
+            
             ShowInventoryCommand = new RelayCommand(ChangeToInventoryView);
             ShowAddBookCommand = new RelayCommand(ChangeToAddBookView);
 
-            
         }
 
         private void ChangeToAddBookView(object? obj)
         {
             
-            SelectedViewModel = AddBookViewModel;
             AddBookViewModel.LoadBookTitles();
+            SelectedViewModel = AddBookViewModel;
             
         }
 
         private void ChangeToInventoryView(object? obj)
         {
+            InventoryViewModel.LoadStoreStock();
             SelectedViewModel = InventoryViewModel;
             
             

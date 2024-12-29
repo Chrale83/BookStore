@@ -18,11 +18,13 @@ namespace BookStore.Presentation.ViewModels
             get => _selectedStore;
             set
             {
+                //if (_selectedStore == value) return;
+                
                 _selectedStore = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedStore));
                 
                 LoadStoreStock();
-                //OnPropertyChanged("StoreInventory");
+                
             }
         }
                 
@@ -33,6 +35,7 @@ namespace BookStore.Presentation.ViewModels
             {
                 SelectedStore = message.SelectedStore;
             });
+            
         }
 
         public ObservableCollection<StoreInventoryModel> StoreInventory

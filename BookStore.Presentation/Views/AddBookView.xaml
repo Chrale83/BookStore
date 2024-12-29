@@ -4,12 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              
-             xmlns:local="clr-namespace:BookStore.Presentation.Views" xmlns:viewmodels="clr-namespace:BookStore.Presentation.ViewModels"
+             xmlns:local="clr-namespace:BookStore.Presentation.Views" 
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
-    <UserControl.DataContext>
-        <viewmodels:AddBookViewModel/>
-    </UserControl.DataContext>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -21,8 +20,8 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ComboBox ItemsSource="{Binding BookDatas}" DisplayMemberPath="Title" Margin="5"/>
-        <ListView Grid.Row="1" Grid.RowSpan="3" ItemsSource="{Binding BookDatas}" DisplayMemberPath="Isbn13"/>
+        
+        <ListView Grid.Row="1" Grid.RowSpan="3" ItemsSource="{Binding BookDatas}" DisplayMemberPath="StockCount"/>
 
     </Grid>
 </UserControl>
