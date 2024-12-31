@@ -51,6 +51,8 @@ namespace BookStore.Presentation.ViewModels
 
         public void LoadStoreStock()
         {
+            if (SelectedStore == null) return;
+            
             using var db = new BookStoreContext();
 
             var StoreStock = db.BookStoreInventories

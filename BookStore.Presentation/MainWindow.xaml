@@ -13,8 +13,8 @@
         <DataTemplate DataType="{x:Type ViewModels:InventoryViewModel}">
             <View:InventoryView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type ViewModels:AddBookViewModel}">
-            <View:AddBookView />
+        <DataTemplate DataType="{x:Type ViewModels:EditBookStockViewModel}">
+            <View:EditBookStockView />
         </DataTemplate>
 
     </Window.Resources>

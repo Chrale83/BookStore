@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace BookStore.Presentation.ViewModels
 {
-    internal class AddBookViewModel : ViewModelBase
+    internal class EditBookStockViewModel : ViewModelBase
     {
 
 
@@ -37,16 +37,11 @@ namespace BookStore.Presentation.ViewModels
                     _selectedStore = value;
                     LoadBookTitles();
                 }
-
-
-
                 OnPropertyChanged();
-
-
             }
         }
 
-        public AddBookViewModel()
+        public EditBookStockViewModel()
         {
             WeakReferenceMessenger.Default.Register<SelectedStoreMessage>(this, (r, message) =>
             {
@@ -77,3 +72,8 @@ namespace BookStore.Presentation.ViewModels
 
     }
 }
+
+
+
+
+

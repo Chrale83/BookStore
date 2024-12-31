@@ -13,15 +13,15 @@
     </UserControl.DataContext>
     <Grid Background="{StaticResource MainAppColor}"  VerticalAlignment="Stretch">
         <StackPanel>
-            <ComboBox Margin="4,4,4,0" ItemsSource="{Binding Stores}"
+            <ComboBox Margin="4,0.9,4,0" ItemsSource="{Binding Stores}"
                       DisplayMemberPath="Name"
                       SelectedItem="{Binding SelectedStore}"
                       />
-            <Button Content="Inventory" Margin="4,4,4,0" 
+            <Button Content="Inventory" Margin="4,6,4,0" 
                     Command="{Binding DataContext.ShowInventoryCommand, 
                               RelativeSource={RelativeSource AncestorType=Window}}"  />
-            <Button Content="Add book" Margin="4,4,4,0" 
-                    Command="{Binding DataContext.ShowAddBookCommand, 
+            <Button Content="Add book" Margin="4,6,4,0" 
+                    Command="{Binding DataContext.ShowEditBookCommand, 
                               RelativeSource={RelativeSource AncestorType=Window}}"  />
             <Button Content="Quit" Margin="4,200,4,0"/>
             <TextBlock Text="{Binding SelectedStore.Name}"/>

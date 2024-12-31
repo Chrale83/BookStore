@@ -18,25 +18,25 @@ namespace BookStore.Presentation.ViewModels
                 
         public MenuViewModel MenuViewModel { get; set; }
         public InventoryViewModel InventoryViewModel { get; set; }
-        public AddBookViewModel AddBookViewModel { get; set; }
+        public EditBookStockViewModel EditBookStockViewModel { get; set; }
         public MainViewModel()
         {
             MenuViewModel = new MenuViewModel();
             InventoryViewModel = new InventoryViewModel();
-            AddBookViewModel = new AddBookViewModel();
+            EditBookStockViewModel = new EditBookStockViewModel();
             
             SelectedViewModel = InventoryViewModel;
             
             ShowInventoryCommand = new RelayCommand(ChangeToInventoryView);
-            ShowAddBookCommand = new RelayCommand(ChangeToAddBookView);
+            ShowEditBookCommand = new RelayCommand(ChangeToEditBookView);
 
         }
 
-        private void ChangeToAddBookView(object? obj)
+        private void ChangeToEditBookView(object? obj)
         {
             
-            AddBookViewModel.LoadBookTitles();
-            SelectedViewModel = AddBookViewModel;
+            EditBookStockViewModel.LoadBookTitles();
+            SelectedViewModel = EditBookStockViewModel;
             
         }
 
@@ -49,7 +49,7 @@ namespace BookStore.Presentation.ViewModels
         }
 
         public ICommand ShowInventoryCommand { get; }
-        public ICommand ShowAddBookCommand { get; }
+        public ICommand ShowEditBookCommand { get; }
 
         
     }

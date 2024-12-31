@@ -19,6 +19,7 @@ namespace BookStore.Presentation.ViewModels
                 _selectedStore = value;
                 OnPropertyChanged();
                 WeakReferenceMessenger.Default.Send(new SelectedStoreMessage(_selectedStore));
+                
             }
         }
 
