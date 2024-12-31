@@ -13,8 +13,9 @@
 
     <Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Image Source="/Images/BookStoreLogo.png" />
+            <TextBlock Text="{Binding SelectedStore.Name}" FontSize="20"  VerticalAlignment="Bottom"/>
             
-            <TextBlock Text="{Binding SelectedStore.Name}" FontSize="20" />
         </StackPanel>
        
 

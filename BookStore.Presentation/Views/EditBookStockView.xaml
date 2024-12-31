@@ -3,25 +3,85 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:local="clr-namespace:BookStore.Presentation.Views" 
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
-        <ListView Grid.Row="1" Grid.RowSpan="3" ItemsSource="{Binding BookDatas}" DisplayMemberPath="StockCount"/>
+
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Search For Book:" 
+                   VerticalAlignment="Center" 
+                   FontWeight="Bold"/>
+            <TextBox Width="175"  VerticalAlignment="Center"/>
+        </StackPanel>
+        <ListView Grid.Row="1" Grid.RowSpan="3" 
+                  ItemsSource="{Binding BookDatas}" 
+                  SelectedItem="{Binding SelectedBook}" 
+                  DisplayMemberPath="Title" Margin="4,0,0,5"/>
+
+        <StackPanel Grid.Row="2" Grid.Column="1">
+            <Label Content="Title" 
+                   FontWeight="Bold" 
+                   Margin="0,-6,0,0"/>
+            <TextBox Text="{Binding SelectedBook.Title}" 
+                     IsReadOnly="True" 
+                     Margin="4,-2,0,0"/>
+            <Label Content="Isbn13" 
+                   FontWeight="Bold" 
+                   Margin="0,-1,0,0"/>
+            <TextBox Text="{Binding SelectedBook.Isbn13}"
+                     IsReadOnly="True"
+                     Margin="4,-2,0,0"/>
+            <Label Content="StockCount" 
+                   FontWeight="Bold" 
+                   Margin="0,-1,0,0"/>
+            <TextBox Text="{Binding SelectedBook.StockCount}" 
+                     IsReadOnly="True"
+                     Margin="4,-2,0,0"/>
+        </StackPanel>
+
+        <Image Grid.Row="2" Grid.Column="3" Source="/Images/BookStoreLogo.png" />
+
+
+        <Grid Grid.Row="3" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Edit Stock Amount" FontWeight="Bold"/>
+            
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Height="20" Margin="4,0,0,0">
+                <Button Width="53" Command="{Binding SubtractTooBookCounterCommand}">
+                        <fa:IconImage Icon="MinusCircle" />
+                </Button>
+                <TextBox Text="{Binding BookStockCounter}" VerticalAlignment="Center" TextAlignment="Center"  Width="40" Height="20" Margin="4,0,4,0"/>
+                <Button Width="53" 
+                        Command="{Binding AddTooBookCounterCommand}">
+                    <fa:IconImage Icon="PlusCircle" />
+                </Button>
+            </StackPanel>
+            <Button Content="{Binding AddOrRemoveButtonText}" Grid.Row="2" Height="20" Margin="4,4,0,0" HorizontalAlignment="Left" Width="154"></Button>
+
+
+
+
+
+        </Grid>
 
     </Grid>
 </UserControl>

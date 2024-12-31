@@ -1,24 +1,29 @@
 ﻿using BookStore.Presentation.Command;
+using System.Windows;
 using System.Windows.Input;
 
 namespace BookStore.Presentation.ViewModels
 {
     internal class MainViewModel : ViewModelBase
     {
-        private ViewModelBase _selectedViewModel;
-        public ViewModelBase SelectedViewModel
+        private ViewModelBase? _selectedViewModel;
+        public ViewModelBase? SelectedViewModel
         {
-            get { return _selectedViewModel; }
+            get => _selectedViewModel;
             set
             {
                 _selectedViewModel = value;
                 OnPropertyChanged();
             }
         }
-                
+
         public MenuViewModel MenuViewModel { get; set; }
         public InventoryViewModel InventoryViewModel { get; set; }
         public EditBookStockViewModel EditBookStockViewModel { get; set; }
+        
+        public RelayCommand ShowInventoryCommand { get; }
+        public RelayCommand ShowEditBookCommand { get; }
+        public RelayCommand CloseApplicationCommand { get; }
         public MainViewModel()
         {
             MenuViewModel = new MenuViewModel();
@@ -29,7 +34,13 @@ namespace BookStore.Presentation.ViewModels
             
             ShowInventoryCommand = new RelayCommand(ChangeToInventoryView);
             ShowEditBookCommand = new RelayCommand(ChangeToEditBookView);
+            CloseApplicationCommand = new RelayCommand(ShutDownApplication);
 
+        }
+
+        private void ShutDownApplication(object? obj)
+        {
+            Application.Current.Shutdown();
         }
 
         private void ChangeToEditBookView(object? obj)
@@ -47,9 +58,6 @@ namespace BookStore.Presentation.ViewModels
             
             
         }
-
-        public ICommand ShowInventoryCommand { get; }
-        public ICommand ShowEditBookCommand { get; }
 
         
     }
