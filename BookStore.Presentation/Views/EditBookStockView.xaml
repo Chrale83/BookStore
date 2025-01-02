@@ -29,7 +29,7 @@
             <TextBox Width="175"  VerticalAlignment="Center"/>
         </StackPanel>
         <ListView Grid.Row="1" Grid.RowSpan="3" 
-                  ItemsSource="{Binding BookDatas}" 
+                  ItemsSource="{Binding BookDatas, UpdateSourceTrigger=PropertyChanged}" 
                   SelectedItem="{Binding SelectedBook}" 
                   DisplayMemberPath="Title" Margin="4,0,0,5"/>
 
@@ -69,13 +69,13 @@
                 <Button Width="53" Command="{Binding SubtractTooBookCounterCommand}">
                         <fa:IconImage Icon="MinusCircle" />
                 </Button>
-                <TextBox Text="{Binding BookStockCounter}" VerticalAlignment="Center" TextAlignment="Center"  Width="40" Height="20" Margin="4,0,4,0"/>
+                <TextBox Text="{Binding BookStockCounter, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" TextAlignment="Center"  Width="40" Height="20" Margin="4,0,4,0"/>
                 <Button Width="53" 
                         Command="{Binding AddTooBookCounterCommand}">
                     <fa:IconImage Icon="PlusCircle" />
                 </Button>
             </StackPanel>
-            <Button Content="{Binding AddOrRemoveButtonText}" Grid.Row="2" Height="20" Margin="4,4,0,0" HorizontalAlignment="Left" Width="154"></Button>
+            <Button Content="{Binding AddOrRemoveButtonText}" Command="{Binding UpdateBookStockCommand}" Grid.Row="2" Height="20" Margin="4,4,0,0" HorizontalAlignment="Left" Width="154"></Button>
 
 
 

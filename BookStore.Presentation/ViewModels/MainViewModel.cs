@@ -1,6 +1,6 @@
-﻿using BookStore.Presentation.Command;
+﻿using BookStore.domain;
+using BookStore.Presentation.Command;
 using System.Windows;
-using System.Windows.Input;
 
 namespace BookStore.Presentation.ViewModels
 {
@@ -21,9 +21,9 @@ namespace BookStore.Presentation.ViewModels
         public InventoryViewModel InventoryViewModel { get; set; }
         public EditBookStockViewModel EditBookStockViewModel { get; set; }
         
-        public RelayCommand ShowInventoryCommand { get; }
-        public RelayCommand ShowEditBookCommand { get; }
-        public RelayCommand CloseApplicationCommand { get; }
+        public RelayCommand? ShowInventoryCommand { get; private set; }
+        public RelayCommand? ShowEditBookCommand { get; private set; }
+        public RelayCommand? CloseApplicationCommand { get; private set; }
         public MainViewModel()
         {
             MenuViewModel = new MenuViewModel();
@@ -31,11 +31,15 @@ namespace BookStore.Presentation.ViewModels
             EditBookStockViewModel = new EditBookStockViewModel();
             
             SelectedViewModel = InventoryViewModel;
-            
+            StartRelayCommands();
+
+        }
+
+        private void StartRelayCommands()
+        {
             ShowInventoryCommand = new RelayCommand(ChangeToInventoryView);
             ShowEditBookCommand = new RelayCommand(ChangeToEditBookView);
             CloseApplicationCommand = new RelayCommand(ShutDownApplication);
-
         }
 
         private void ShutDownApplication(object? obj)
@@ -44,21 +48,13 @@ namespace BookStore.Presentation.ViewModels
         }
 
         private void ChangeToEditBookView(object? obj)
-        {
-            
-            EditBookStockViewModel.LoadBookTitles();
-            SelectedViewModel = EditBookStockViewModel;
-            
+        { 
+            SelectedViewModel = EditBookStockViewModel;     
         }
 
         private void ChangeToInventoryView(object? obj)
-        {
-            InventoryViewModel.LoadStoreStock();
-            SelectedViewModel = InventoryViewModel;
-            
-            
+        {     
+            SelectedViewModel = InventoryViewModel;        
         }
-
-        
     }
 }

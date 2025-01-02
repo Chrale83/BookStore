@@ -1,22 +1,19 @@
 ﻿using BookStore.domain;
-using BookStore.Infrastructure.Data.Model;
 using BookStore.Presentation.Command;
+using BookStore.Presentation.ConnectionDBHandler;
 using BookStore.Presentation.Messages;
 using BookStore.Presentation.Models;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Data;
 
 namespace BookStore.Presentation.ViewModels
 {
     internal class EditBookStockViewModel : ViewModelBase
     {
-
-
         private Store? _selectedStore;
         private ObservableCollection<BookDataModel>? _bookDatas;
+        private int _bookStockCounter = 0;
+        private string _addOrRemoveButtonText;
 
         public ObservableCollection<BookDataModel>? BookDatas
         {
@@ -33,32 +30,36 @@ namespace BookStore.Presentation.ViewModels
         public BookDataModel? SelectedBook
         {
             get => _selectedBook;
-            set 
-            { 
+            set
+            {
                 _selectedBook = value;
                 OnPropertyChanged();
+                UpdateBookStockCommand.RaiseCanExectueChanged();
             }
         }
 
-        private int _bookStockCounter = 0;
-        private string _addOrRemoveButtonText;
+        public EditBooksHandler EditBooksHandler { get; set; } = new EditBooksHandler();
 
         public int BookStockCounter
         {
             get => _bookStockCounter;
-            set 
-            { 
+            set
+            {
                 _bookStockCounter = value;
-                if (BookStockCounter > 1)
+                if (BookStockCounter > 0)
                 {
                     AddOrRemoveButtonText = "Add Book";
                 }
+                else if (BookStockCounter < 0)
+                {
+                    AddOrRemoveButtonText = "Remove Book";
+                }
                 else
                 {
-                    AddOrRemoveButtonText = "Default";
+                    AddOrRemoveButtonText = "Enter a number";
                 }
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(AddOrRemoveButtonText));
+                UpdateBookStockCommand.RaiseCanExectueChanged();
             }
         }
         public Store? SelectedStore
@@ -69,32 +70,23 @@ namespace BookStore.Presentation.ViewModels
                 if (SelectedStore != value)
                 {
                     _selectedStore = value;
-                    LoadBookTitles();
+                    UpdateBookDatas();
                 }
                 OnPropertyChanged();
+                UpdateBookStockCommand.RaiseCanExectueChanged();
             }
         }
-
-
-
-
-        public RelayCommand AddTooBookCounterCommand { get; }
-
-        private void AddToBookCounter(object obj)
-        {
-            
-            BookStockCounter++;
-        }
-
-        public RelayCommand SubtractTooBookCounterCommand { get; }
+        private void AddToBookCounter(object obj) => BookStockCounter++;
+        private void SubtractFromBookCounter(object obj) => BookStockCounter--;
         
-        public string AddOrRemoveButtonText { 
+        public string AddOrRemoveButtonText
+        {
             get => _addOrRemoveButtonText;
-            set 
-            { 
+            set
+            {
                 _addOrRemoveButtonText = value;
                 OnPropertyChanged();
-            } 
+            }
         }
 
         public EditBookStockViewModel()
@@ -103,44 +95,46 @@ namespace BookStore.Presentation.ViewModels
             {
                 SelectedStore = message.SelectedStore;
             });
+            StartupRelayCommands();
+        }
+        public void StartupRelayCommands()
+        {
             AddTooBookCounterCommand = new RelayCommand(AddToBookCounter);
             SubtractTooBookCounterCommand = new RelayCommand(SubtractFromBookCounter);
-            
+            UpdateBookStockCommand = new RelayCommand(UpdateBookStock, CanUpdateBookStock);
         }
+        public RelayCommand AddTooBookCounterCommand { get; set; }
+        public RelayCommand SubtractTooBookCounterCommand { get; set; }
+        public RelayCommand UpdateBookStockCommand { get; set; }
+
+
+        private bool CanUpdateBookStock(object? arg)
+        {
+            bool isStoreSelected = SelectedStore != null;
+            bool isBookSelected = SelectedBook != null;
+            bool isBookStockAValue = BookStockCounter != 0;
+
+            return isBookSelected && isStoreSelected && isBookStockAValue;
+        }
+
+        private void UpdateBookStock(object obj)
+        {
+            EditBooksHandler.UpDateBookStock(SelectedStore.Id, SelectedBook.Isbn13,BookStockCounter);
+            UpdateBookDatas();
+        }
+
+        public void UpdateBookDatas()
+        {
+            BookDatas = EditBooksHandler.LoadBookTitles(SelectedStore);
+        }
+    }
+
+}
+                    
 
         
 
-        private void SubtractFromBookCounter(object obj)
-        {
-            BookStockCounter--;
-            OnPropertyChanged(nameof(BookStockCounter));
-        }
 
-        public void LoadBookTitles()
-        {
-            if (SelectedStore != null)
-            {
-                using var db = new BookStoreContext();
-
-                var GetBookData = db.BookStoreInventories
-                                .Include(bi => bi.Isbn13Navigation)
-                                .Where(bi => bi.StoreId == SelectedStore.Id)
-                                .Select(bi => new BookDataModel
-                                {
-                                    Isbn13 = bi.Isbn13Navigation.Isbn13,
-                                    Title = bi.Isbn13Navigation.Title,
-                                    StockCount = bi.StockCount
-                                }).ToList();
-
-                BookDatas = new ObservableCollection<BookDataModel>(GetBookData);
-
-                
-
-            }
-        }
-
-    }
-}
 
 
 

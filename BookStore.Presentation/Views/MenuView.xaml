@@ -18,16 +18,13 @@
             <Button Content="Inventory" Margin="4,6,4,0" 
                     Command="{Binding DataContext.ShowInventoryCommand, 
                               RelativeSource={RelativeSource AncestorType=Window}}"  />
-            <Button Content="Add book" Margin="4,6,4,0" 
+            <Button Content="Edit Inventory" Margin="4,6,4,0" 
                     Command="{Binding DataContext.ShowEditBookCommand, 
                               RelativeSource={RelativeSource AncestorType=Window}}"  />
             <Button Content="Quit" 
                     Command="{Binding DataContext.CloseApplicationCommand, 
                             RelativeSource={RelativeSource AncestorType=Window}}" 
                     Margin="4,175,4,0"/>
-            
-
-
         </StackPanel>
     </Grid>
 </UserControl>
