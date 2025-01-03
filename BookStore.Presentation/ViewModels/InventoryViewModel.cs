@@ -17,18 +17,15 @@ namespace BookStore.Presentation.ViewModels
             get => _selectedStore;
             set
             {
-                //if (_selectedStore == value) return;
-                
                 _selectedStore = value;
                 OnPropertyChanged(nameof(SelectedStore));
-     
-                StoreInventory = LoadStoreInventoryHandler.LoadStoreStock(SelectedStore.Id);
+                LoadStoreStock();
             }
         }
-                       
+
         public InventoryViewModel()
         {
-            WeakReferenceMessenger.Default.Register<SelectedStoreMessage>(this, (r, message) => SelectedStore = message.SelectedStore);          
+            WeakReferenceMessenger.Default.Register<SelectedStoreMessage>(this, (r, message) => SelectedStore = message.SelectedStore);
         }
 
         public ObservableCollection<StoreInventoryModel>? StoreInventory
@@ -40,5 +37,10 @@ namespace BookStore.Presentation.ViewModels
                 OnPropertyChanged();
             }
         }
+        public async Task LoadStoreStock()
+        {
+            StoreInventory = await LoadStoreInventoryHandler.LoadStoreStockAsync(SelectedStore.Id);
+        }
     }
+
 }

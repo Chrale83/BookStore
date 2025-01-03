@@ -1,5 +1,6 @@
 ﻿using BookStore.domain;
 using BookStore.Infrastructure.Data.Model;
+using BookStore.Presentation.DialogWindows;
 using BookStore.Presentation.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
@@ -8,14 +9,13 @@ namespace BookStore.Presentation.ConnectionDBHandler
 {
     class EditBooksHandler
     {
-
-        public ObservableCollection<BookDataModel>? LoadBookTitles(Store selectedStore)
+        public async Task<ObservableCollection<BookDataModel>>? LoadBookTitles(Store selectedStore)
         {
             if (selectedStore != null)
             {
                 using var db = new BookStoreContext();
 
-                var GetBookData = db.BookStoreInventories
+                var GetBookData = await db.BookStoreInventories
                                 .AsNoTracking()
                                 .Include(bi => bi.Isbn13Navigation)
                                 .Where(bi => bi.StoreId == selectedStore.Id)
@@ -24,14 +24,14 @@ namespace BookStore.Presentation.ConnectionDBHandler
                                     Isbn13 = bi.Isbn13Navigation.Isbn13,
                                     Title = bi.Isbn13Navigation.Title,
                                     StockCount = bi.StockCount
-                                }).ToList();
+                                }).ToListAsync();
 
                 return new ObservableCollection<BookDataModel>(GetBookData);
             }
             return null;
         }
 
-        public void UpDateBookStock(int selectedStore, string selectedBook, int bookStockCounter)
+        public async Task UpdateBookStoreDataBaseStock(int selectedStore, string selectedBook, int bookStockCounter)
         {
             using var db = new BookStoreContext();
 
@@ -48,7 +48,8 @@ namespace BookStore.Presentation.ConnectionDBHandler
             }
             else
             {
-                //Öppna dialog window ErrorEditBookCount
+                var window = new ErrorEditBookCount();
+                window.ShowDialog();
             }
 
         }

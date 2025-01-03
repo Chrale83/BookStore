@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using BookStore.Presentation.ViewModels;
-using BookStore.Presentation.Views;
 
 namespace BookStore.Presentation
 {
@@ -12,7 +10,7 @@ namespace BookStore.Presentation
         public MainWindow()
         {
             InitializeComponent();
-            //DataContext = new MainViewModel();
+            
         }
     }
 }

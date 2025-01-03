@@ -8,13 +8,13 @@ namespace BookStore.Presentation.ConnectionDBHandler
     class LoadStoreInventoryHandler
     {
 
-        public ObservableCollection<StoreInventoryModel> LoadStoreStock(int selectedStore)
+        public async Task<ObservableCollection<StoreInventoryModel>> LoadStoreStockAsync(int selectedStore)
         {
-            if (selectedStore == null) return null;
+            if (selectedStore < 0 || selectedStore > 3) return null;
 
             using var db = new BookStoreContext();
 
-            var StoreStock = db.BookStoreInventories
+            var StoreStock = await db.BookStoreInventories
                              .Include(bi => bi.Isbn13Navigation)
                              .ThenInclude(b => b.Authors)
                              .Include(bi => bi.Store)
@@ -25,7 +25,7 @@ namespace BookStore.Presentation.ConnectionDBHandler
                                  Title = bi.Isbn13Navigation.Title,
                                  Authors = bi.Isbn13Navigation.Authors.ToList(),
                                  StockCount = bi.StockCount
-                             }).ToList();
+                             }).ToListAsync();
 
             return new ObservableCollection<StoreInventoryModel>(StoreStock);
 

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Messaging;
 using BookStore.Presentation.Messages;
 using BookStore.Presentation.ConnectionDBHandler;
+using BookStore.Presentation.Command;
 
 namespace BookStore.Presentation.ViewModels
 {
@@ -23,11 +24,24 @@ namespace BookStore.Presentation.ViewModels
             }
         }
 
-        
+        public RelayCommand GetStoresCommand { get; }
         public MenuViewModel()
         {
-            Stores = LoadStoreHandler.LoadStores();
+            GetStoresCommand = new RelayCommand(LoadStoresFromDb, CanLoadStoresFromDb);
             
+        }
+
+        private bool CanLoadStoresFromDb(object? arg)
+        {
+            return SelectedStore == null;
+        }
+
+        private async void LoadStoresFromDb(object obj)
+        {
+            Stores = await LoadStoreHandler.LoadStores();
+            OnPropertyChanged(nameof(Stores));
+            SelectedStore = Stores.FirstOrDefault();
+            GetStoresCommand.RaiseCanExectueChanged();
         }
     }
 }

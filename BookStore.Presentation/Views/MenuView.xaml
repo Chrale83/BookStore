@@ -8,10 +8,15 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:MenuViewModel, IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="white">
-    
+
     <Grid Background="{StaticResource MainAppColor}"  VerticalAlignment="Stretch">
         <StackPanel>
-            <ComboBox Margin="4,0.9,4,0" ItemsSource="{Binding Stores}"
+            <Button Content="Load Stores" Margin="4,0,4,4" 
+                    DataContext="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay, Path=DataContext}"
+                Command="{Binding GetStoresCommand}"  />
+            <ComboBox Margin="4,0.9,4,0"
+                      
+                      ItemsSource="{Binding Stores}"
                       DisplayMemberPath="Name"
                       SelectedItem="{Binding SelectedStore}"
                       />
@@ -24,7 +29,7 @@
             <Button Content="Quit" 
                     Command="{Binding DataContext.CloseApplicationCommand, 
                             RelativeSource={RelativeSource AncestorType=Window}}" 
-                    Margin="4,175,4,0"/>
+                    Margin="4,150,4,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

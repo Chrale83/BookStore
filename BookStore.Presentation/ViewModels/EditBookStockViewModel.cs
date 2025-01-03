@@ -46,22 +46,12 @@ namespace BookStore.Presentation.ViewModels
             set
             {
                 _bookStockCounter = value;
-                if (BookStockCounter > 0)
-                {
-                    AddOrRemoveButtonText = "Add Book";
-                }
-                else if (BookStockCounter < 0)
-                {
-                    AddOrRemoveButtonText = "Remove Book";
-                }
-                else
-                {
-                    AddOrRemoveButtonText = "Enter a number";
-                }
+                CheckWhatTextForButton();
                 OnPropertyChanged();
                 UpdateBookStockCommand.RaiseCanExectueChanged();
             }
         }
+
         public Store? SelectedStore
         {
             get => _selectedStore;
@@ -101,7 +91,7 @@ namespace BookStore.Presentation.ViewModels
         {
             AddTooBookCounterCommand = new RelayCommand(AddToBookCounter);
             SubtractTooBookCounterCommand = new RelayCommand(SubtractFromBookCounter);
-            UpdateBookStockCommand = new RelayCommand(UpdateBookStock, CanUpdateBookStock);
+            UpdateBookStockCommand = new RelayCommand(UpdateBookStoreStock, CanUpdateBookStock);
         }
         public RelayCommand AddTooBookCounterCommand { get; set; }
         public RelayCommand SubtractTooBookCounterCommand { get; set; }
@@ -117,19 +107,35 @@ namespace BookStore.Presentation.ViewModels
             return isBookSelected && isStoreSelected && isBookStockAValue;
         }
 
-        private void UpdateBookStock(object obj)
+        private async void UpdateBookStoreStock(object obj)
         {
-            EditBooksHandler.UpDateBookStock(SelectedStore.Id, SelectedBook.Isbn13,BookStockCounter);
-            UpdateBookDatas();
+            await EditBooksHandler.UpdateBookStoreDataBaseStock(SelectedStore.Id, SelectedBook.Isbn13,BookStockCounter);
+            await UpdateBookDatas();
+            BookStockCounter = 0;
         }
 
-        public void UpdateBookDatas()
+        public async Task UpdateBookDatas()
         {
-            BookDatas = EditBooksHandler.LoadBookTitles(SelectedStore);
+            BookDatas = await EditBooksHandler.LoadBookTitles(SelectedStore);
+        }
+        private void CheckWhatTextForButton()
+        {
+            //https://github.com/josephRashidMaalouf/AlternativeToIfStatementsDemo/blob/master/AlternativeToIfStatementsDemo/Program.cs
+            AddOrRemoveButtonText = BookStockCounter switch
+            {
+                > 0 => "Add Book",
+                < 0 => "Remove Book",
+                _ => "Enter a number" // _ används som en else?
+
+            };
+        
         }
     }
 
 }
+             
+            
+           
                     
 
         
