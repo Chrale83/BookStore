@@ -1,5 +1,4 @@
-﻿using BookStore.Presentation.ViewModels;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace BookStore.Presentation.Views
 {

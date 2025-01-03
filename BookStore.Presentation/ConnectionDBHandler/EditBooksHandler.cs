@@ -11,6 +11,7 @@ namespace BookStore.Presentation.ConnectionDBHandler
     {
         public async Task<ObservableCollection<BookDataModel>>? LoadBookTitles(Store selectedStore)
         {
+            try { 
             if (selectedStore != null)
             {
                 using var db = new BookStoreContext();
@@ -29,30 +30,47 @@ namespace BookStore.Presentation.ConnectionDBHandler
                 return new ObservableCollection<BookDataModel>(GetBookData);
             }
             return null;
+            }
+            catch
+            {
+                var ErrorWindow = new ErrorNoConnectionToDataBase();
+                ErrorWindow.ShowDialog();
+                return null;
+            }
         }
 
-        public async Task UpdateBookStoreDataBaseStock(int selectedStore, string selectedBook, int bookStockCounter)
+        public async Task<bool> UpdateBookStoreDataBaseStock(int selectedStore, string selectedBook, int bookStockCounter)
         {
-            using var db = new BookStoreContext();
-
-            var UpdateBookData = db.BookStoreInventories
-                                .Include(bi => bi.Isbn13Navigation)
-                                .FirstOrDefault(bi => bi.StoreId == selectedStore && bi.Isbn13Navigation.Isbn13 == selectedBook);
-
-             bool editValue = CheckIfValidEdit(UpdateBookData.StockCount, bookStockCounter);
-             
-            if (editValue)
+            try
             {
-                UpdateBookData.StockCount += bookStockCounter;
-                db.SaveChanges();
-            }
-            else
-            {
-                var window = new ErrorEditBookCount();
-                window.ShowDialog();
-            }
+                using var db = new BookStoreContext();
 
+                var UpdateBookData = db.BookStoreInventories
+                                    .Include(bi => bi.Isbn13Navigation)
+                                    .FirstOrDefault(bi => bi.StoreId == selectedStore && bi.Isbn13Navigation.Isbn13 == selectedBook);
+
+                bool editValue = CheckIfValidEdit(UpdateBookData.StockCount, bookStockCounter);
+
+                if (editValue)
+                {
+                    UpdateBookData.StockCount += bookStockCounter;
+                    await db.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                var ErrorWindow = new ErrorNoConnectionToDataBase();
+                ErrorWindow.ShowDialog();
+                return false;
+            }
         }
+
+
 
         public static bool CheckIfValidEdit(int? dbStockAmount, int WantedValue)
         {

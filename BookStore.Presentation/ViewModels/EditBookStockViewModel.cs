@@ -1,10 +1,13 @@
 ﻿using BookStore.domain;
 using BookStore.Presentation.Command;
 using BookStore.Presentation.ConnectionDBHandler;
+using BookStore.Presentation.DialogWindows;
 using BookStore.Presentation.Messages;
 using BookStore.Presentation.Models;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace BookStore.Presentation.ViewModels
 {
@@ -12,8 +15,29 @@ namespace BookStore.Presentation.ViewModels
     {
         private Store? _selectedStore;
         private ObservableCollection<BookDataModel>? _bookDatas;
+
         private int _bookStockCounter = 0;
         private string _addOrRemoveButtonText;
+        public string _searchText;
+
+        public string SearchText //<------- TEST
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged();
+                
+                SearchedTitlesView.Refresh();
+            }
+        }
+
+        public void CheckForTitle(string inPutedText) //<------------- TEST
+        {
+            bool TestForText = BookDatas.Any(bd => bd.Title.StartsWith(inPutedText, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public ICollectionView SearchedTitlesView { get;private set; } //<---------- TEST
 
         public ObservableCollection<BookDataModel>? BookDatas
         {
@@ -68,7 +92,7 @@ namespace BookStore.Presentation.ViewModels
         }
         private void AddToBookCounter(object obj) => BookStockCounter++;
         private void SubtractFromBookCounter(object obj) => BookStockCounter--;
-        
+
         public string AddOrRemoveButtonText
         {
             get => _addOrRemoveButtonText;
@@ -85,6 +109,7 @@ namespace BookStore.Presentation.ViewModels
             {
                 SelectedStore = message.SelectedStore;
             });
+
             StartupRelayCommands();
         }
         public void StartupRelayCommands()
@@ -109,14 +134,24 @@ namespace BookStore.Presentation.ViewModels
 
         private async void UpdateBookStoreStock(object obj)
         {
-            await EditBooksHandler.UpdateBookStoreDataBaseStock(SelectedStore.Id, SelectedBook.Isbn13,BookStockCounter);
-            await UpdateBookDatas();
+            bool editSucess = await EditBooksHandler.UpdateBookStoreDataBaseStock(SelectedStore.Id, SelectedBook.Isbn13, BookStockCounter);
+
+            if (editSucess) await UpdateBookDatas();
+            else
+            {
+                var window = new ErrorEditBookCount();
+                window.ShowDialog();
+            }
+
             BookStockCounter = 0;
         }
 
         public async Task UpdateBookDatas()
         {
             BookDatas = await EditBooksHandler.LoadBookTitles(SelectedStore);
+            //SearchedTitlesView = CollectionViewSource.GetDefaultView(BookDatas); //<----------- Test
+            //SearchedTitlesView.Filter = 
+            //OnPropertyChanged(nameof(SearchedTitlesView));
         }
         private void CheckWhatTextForButton()
         {
@@ -128,17 +163,17 @@ namespace BookStore.Presentation.ViewModels
                 _ => "Enter a number" // _ används som en else?
 
             };
-        
+
         }
     }
 
 }
-             
-            
-           
-                    
 
-        
+
+
+
+
+
 
 
 
