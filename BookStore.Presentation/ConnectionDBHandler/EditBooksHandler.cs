@@ -18,8 +18,6 @@ namespace BookStore.Presentation.ConnectionDBHandler
                     return null;
                 }
 
-
-
                 using var db = new BookStoreContext();
 
                 var GetBookData = await db.BookStoreInventories
@@ -37,12 +35,11 @@ namespace BookStore.Presentation.ConnectionDBHandler
             }
             catch
             {
-
                 return null;
             }
         }
 
-        public static async Task<bool> UpdateBookStoreDataBaseStock(int selectedStore, string selectedBook, int bookStockCounter)
+        public static async Task UpdateBookStoreDataBaseStock(int selectedStore, string selectedBook, int bookStockCounter)
         {
             try
             {
@@ -57,19 +54,13 @@ namespace BookStore.Presentation.ConnectionDBHandler
                 if (editValue)
                 {
                     UpdateBookData.StockCount += bookStockCounter;
-                    await db.SaveChangesAsync();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                    await db.SaveChangesAsync();    
+                }    
             }
             catch
             {
                 var ErrorWindow = new ErrorNoConnectionToDataBase();
-                ErrorWindow.ShowDialog();
-                return false;
+                ErrorWindow.ShowDialog();      
             }
         }
 
@@ -82,7 +73,7 @@ namespace BookStore.Presentation.ConnectionDBHandler
 
             int tempTotalvalue = tempDbValue + tempBookEditValue;
 
-            return tempTotalvalue > 0;
+            return tempTotalvalue >= 0;
         }
     }
 }

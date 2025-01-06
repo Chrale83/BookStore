@@ -54,7 +54,7 @@ namespace BookStore.Presentation.ViewModels
             }
         }
 
-        
+
 
         public int BookStockCounter
         {
@@ -129,20 +129,30 @@ namespace BookStore.Presentation.ViewModels
             bool isStoreSelected = SelectedStore != null;
             bool isBookSelected = SelectedBook != null;
             bool isBookStockAValue = BookStockCounter != 0;
+            bool isValueCorrect = CheckInPutedValueTooDb();
 
-            return isBookSelected && isStoreSelected && isBookStockAValue;
+            return isBookSelected && isStoreSelected && isBookStockAValue && isValueCorrect;
+        }
+
+        private bool CheckInPutedValueTooDb()
+        {
+            if (SelectedBook == null) return false;
+
+            int tempValue = (int)SelectedBook.StockCount + BookStockCounter;
+
+            if (tempValue >= 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         private async void UpdateBookStoreStock(object obj)
         {
-            bool editSucess = await EditBooksHandler.UpdateBookStoreDataBaseStock(SelectedStore.Id, SelectedBook.Isbn13, BookStockCounter);
+            await EditBooksHandler.UpdateBookStoreDataBaseStock(SelectedStore.Id, SelectedBook.Isbn13, BookStockCounter);
 
-            if (editSucess) await UpdateBookDatas();
-            else
-            {
-                var window = new ErrorEditBookCount();
-                window.ShowDialog();
-            }
+            await UpdateBookDatas();
+            
             BookStockCounter = 0;
         }
 
@@ -162,6 +172,9 @@ namespace BookStore.Presentation.ViewModels
         }
     }
 }
+            
+            
+            
 
 
 
