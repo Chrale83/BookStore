@@ -6,8 +6,8 @@ Then compile the project and hopefully it will work.
 
 -This Project is hardcoded for the SQL server to be running on the same computer
 
-- If not locate the .Cs file in "BookStore.infrastructure/data/model/BookstoreContext.cs"
-- and edit it for your liking
+If not locate the .Cs file in "BookStore.infrastructure/data/model/BookstoreContext.cs"
+and edit it for your liking
 
 ---
 Direct Link to the database backup file:
