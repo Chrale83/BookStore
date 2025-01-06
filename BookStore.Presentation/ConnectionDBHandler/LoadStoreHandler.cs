@@ -6,9 +6,9 @@ using System.Collections.ObjectModel;
 
 namespace BookStore.Presentation.ConnectionDBHandler
 {
-    class LoadStoreHandler
+    class  LoadStoreHandler
     {
-        public async Task<ObservableCollection<Store>> LoadStores()
+        public static async Task<ObservableCollection<Store>> LoadStores()
         {
             try
             {

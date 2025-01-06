@@ -9,7 +9,7 @@ namespace BookStore.Presentation.ViewModels
 {
     internal class InventoryViewModel : ViewModelBase
     {
-        public LoadStoreInventoryHandler LoadStoreInventoryHandler { get; set; } = new LoadStoreInventoryHandler();
+        
         private Store? _selectedStore;
         private ObservableCollection<StoreInventoryModel>? _storeInventory;
         public Store? SelectedStore
@@ -19,13 +19,17 @@ namespace BookStore.Presentation.ViewModels
             {
                 _selectedStore = value;
                 OnPropertyChanged(nameof(SelectedStore));
-                LoadStoreStock();
             }
         }
+                
 
         public InventoryViewModel()
         {
-            WeakReferenceMessenger.Default.Register<SelectedStoreMessage>(this, (r, message) => SelectedStore = message.SelectedStore);
+            WeakReferenceMessenger.Default.Register<SelectedStoreMessage>(this, async (r, message) =>
+            {
+                SelectedStore = message.SelectedStore;
+                await LoadStoreStock();
+            });
         }
 
         public ObservableCollection<StoreInventoryModel>? StoreInventory

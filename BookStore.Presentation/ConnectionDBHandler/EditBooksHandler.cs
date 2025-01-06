@@ -9,11 +9,17 @@ namespace BookStore.Presentation.ConnectionDBHandler
 {
     class EditBooksHandler
     {
-        public async Task<ObservableCollection<BookDataModel>>? LoadBookTitles(Store selectedStore)
+        public static async Task<ObservableCollection<BookDataModel>>? LoadBookTitles(Store selectedStore)
         {
-            try { 
-            if (selectedStore != null)
+            try
             {
+                if (selectedStore == null)
+                {
+                    return null;
+                }
+
+
+
                 using var db = new BookStoreContext();
 
                 var GetBookData = await db.BookStoreInventories
@@ -29,17 +35,14 @@ namespace BookStore.Presentation.ConnectionDBHandler
 
                 return new ObservableCollection<BookDataModel>(GetBookData);
             }
-            return null;
-            }
             catch
             {
-                var ErrorWindow = new ErrorNoConnectionToDataBase();
-                ErrorWindow.ShowDialog();
+
                 return null;
             }
         }
 
-        public async Task<bool> UpdateBookStoreDataBaseStock(int selectedStore, string selectedBook, int bookStockCounter)
+        public static async Task<bool> UpdateBookStoreDataBaseStock(int selectedStore, string selectedBook, int bookStockCounter)
         {
             try
             {
@@ -83,3 +86,35 @@ namespace BookStore.Presentation.ConnectionDBHandler
         }
     }
 }
+
+
+
+//public async Task<bool> UpdateBookStoreDataBaseStock(int selectedStore, string selectedBook, int bookStockCounter)
+//{
+//    try
+//    {
+//        using var db = new BookStoreContext();
+
+//        var UpdateBookData = db.BookStoreInventories
+//                            .Include(bi => bi.Isbn13Navigation)
+//                            .FirstOrDefault(bi => bi.StoreId == selectedStore && bi.Isbn13Navigation.Isbn13 == selectedBook);
+
+//        bool editValue = CheckIfValidEdit(UpdateBookData.StockCount, bookStockCounter);
+
+//        if (editValue)
+//        {
+//            UpdateBookData.StockCount += bookStockCounter;
+//            await db.SaveChangesAsync();
+//        }
+//        else
+//        {
+//            throw new Exception("Bla");
+//        }
+//    }
+//            //catch(e)
+//            //{
+//            //    var ErrorWindow = new ErrorNoConnectionToDataBase();
+//            //    ErrorWindow.ShowDialog();
+//            //    throw e;
+//            //}
+//        }

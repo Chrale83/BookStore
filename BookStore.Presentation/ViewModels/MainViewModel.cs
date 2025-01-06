@@ -32,7 +32,6 @@ namespace BookStore.Presentation.ViewModels
             
             SelectedViewModel = InventoryViewModel;
             StartRelayCommands();
-
         }
 
         private void StartRelayCommands()

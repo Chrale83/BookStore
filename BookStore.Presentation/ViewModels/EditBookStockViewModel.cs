@@ -27,18 +27,10 @@ namespace BookStore.Presentation.ViewModels
             {
                 _searchText = value;
                 OnPropertyChanged();
-                
-                SearchedTitlesView.Refresh();
+
+
             }
         }
-
-        public void CheckForTitle(string inPutedText) //<------------- TEST
-        {
-            bool TestForText = BookDatas.Any(bd => bd.Title.StartsWith(inPutedText, StringComparison.OrdinalIgnoreCase));
-        }
-
-        public ICollectionView SearchedTitlesView { get;private set; } //<---------- TEST
-
         public ObservableCollection<BookDataModel>? BookDatas
         {
             get => _bookDatas;
@@ -62,7 +54,7 @@ namespace BookStore.Presentation.ViewModels
             }
         }
 
-        public EditBooksHandler EditBooksHandler { get; set; } = new EditBooksHandler();
+        
 
         public int BookStockCounter
         {
@@ -70,12 +62,10 @@ namespace BookStore.Presentation.ViewModels
             set
             {
                 _bookStockCounter = value;
-                CheckWhatTextForButton();
                 OnPropertyChanged();
                 UpdateBookStockCommand.RaiseCanExectueChanged();
             }
         }
-
         public Store? SelectedStore
         {
             get => _selectedStore;
@@ -90,9 +80,21 @@ namespace BookStore.Presentation.ViewModels
                 UpdateBookStockCommand.RaiseCanExectueChanged();
             }
         }
-        private void AddToBookCounter(object obj) => BookStockCounter++;
-        private void SubtractFromBookCounter(object obj) => BookStockCounter--;
+        private void AddToBookCounter(object obj) => CheckEditedValueForBookStockCounter(1);
+        private void SubtractFromBookCounter(object obj) => CheckEditedValueForBookStockCounter(-1);
 
+        private void CheckEditedValueForBookStockCounter(int inputedValue)
+        {
+            if (inputedValue == 1)
+            {
+                BookStockCounter++;
+            }
+            else
+            {
+                BookStockCounter--;
+            }
+            CheckWhatTextForButton();
+        }
         public string AddOrRemoveButtonText
         {
             get => _addOrRemoveButtonText;
@@ -122,7 +124,6 @@ namespace BookStore.Presentation.ViewModels
         public RelayCommand SubtractTooBookCounterCommand { get; set; }
         public RelayCommand UpdateBookStockCommand { get; set; }
 
-
         private bool CanUpdateBookStock(object? arg)
         {
             bool isStoreSelected = SelectedStore != null;
@@ -142,32 +143,39 @@ namespace BookStore.Presentation.ViewModels
                 var window = new ErrorEditBookCount();
                 window.ShowDialog();
             }
-
             BookStockCounter = 0;
         }
 
         public async Task UpdateBookDatas()
         {
             BookDatas = await EditBooksHandler.LoadBookTitles(SelectedStore);
-            //SearchedTitlesView = CollectionViewSource.GetDefaultView(BookDatas); //<----------- Test
-            //SearchedTitlesView.Filter = 
-            //OnPropertyChanged(nameof(SearchedTitlesView));
         }
         private void CheckWhatTextForButton()
         {
-            //https://github.com/josephRashidMaalouf/AlternativeToIfStatementsDemo/blob/master/AlternativeToIfStatementsDemo/Program.cs
-            AddOrRemoveButtonText = BookStockCounter switch
+            //https://github.com/josephRashidMaalouf/AlternativeToIfStatementsDemo/blob/master/AlternativeToIfStatementsDemo/Program.cs //LÄnk till josefs guide över olika if och switch
+            AddOrRemoveButtonText = BookStockCounter switch //beroende vilket av "Vilkoren" baserad på BookStockCounter´s värde så får AddOrRemoveButtonText "sträng värdet"
             {
                 > 0 => "Add Book",
                 < 0 => "Remove Book",
-                _ => "Enter a number" // _ används som en else?
-
+                _ => "Enter a number" // _ används som en else
             };
-
         }
     }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

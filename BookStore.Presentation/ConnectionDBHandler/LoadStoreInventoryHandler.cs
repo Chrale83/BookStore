@@ -9,7 +9,7 @@ namespace BookStore.Presentation.ConnectionDBHandler
     class LoadStoreInventoryHandler
     {
 
-        public async Task<ObservableCollection<StoreInventoryModel>> LoadStoreStockAsync(int? selectedStore)
+        public static async Task<ObservableCollection<StoreInventoryModel>> LoadStoreStockAsync(int? selectedStore)
         {
             try
             {
