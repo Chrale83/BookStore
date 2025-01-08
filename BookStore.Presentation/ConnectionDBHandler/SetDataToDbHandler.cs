@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace BookStore.Presentation.ConnectionDBHandler
 {
-    class DataBaseChangeHandler
+    class SetDataToDbHandler
     {
         public static async Task<ObservableCollection<BookDataModel>>? LoadBookTitles(Store selectedStore)
         {
@@ -106,6 +106,18 @@ namespace BookStore.Presentation.ConnectionDBHandler
 
             await db.BookStoreInventories.AddAsync(newBookToStore);
             await db.SaveChangesAsync();
+        }
+
+        public static async Task RemoveBookFromStoreInventory(int selectedStore, string selectedBook)
+        {
+            using var db = new BookStoreContext();
+
+            var bookToRemove = db.BookStoreInventories
+                                 .FirstOrDefault(s => s.StoreId == selectedStore && s.Isbn13 == selectedBook);
+
+            db.BookStoreInventories.Remove(bookToRemove);
+
+            db.SaveChanges();
         }
     }
 }

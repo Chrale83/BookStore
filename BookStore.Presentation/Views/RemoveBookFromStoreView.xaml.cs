@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace BookStore.Presentation.Views
 {
     /// <summary>
-    /// Interaction logic for AddNewBookToStoreView.xaml
+    /// Interaction logic for DeleteBookFromStoreView.xaml
     /// </summary>
-    public partial class AddNewBookToStoreView : UserControl
+    public partial class RemoveBookFromStoreView : UserControl
     {
-        public AddNewBookToStoreView()
+        public RemoveBookFromStoreView()
         {
             InitializeComponent();
         }

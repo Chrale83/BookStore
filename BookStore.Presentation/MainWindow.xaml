@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:View="clr-namespace:BookStore.Presentation.Views" 
         xmlns:ViewModels="clr-namespace:BookStore.Presentation.ViewModels"
-        Title="Book Store Manager" Height="360" Width="700">
+        Title="Book Store Manager" Height="500" Width="900">
     <Window.Resources>
         
         <DataTemplate DataType="{x:Type ViewModels:InventoryViewModel}">

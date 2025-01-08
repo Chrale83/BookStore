@@ -6,7 +6,7 @@ namespace BookStore.Presentation.ViewModels
     {
 
         private AddBookToStoreInventoryViewModel AddNewBookToStoreViewModel;
-        private DeleteBookFromStoreViewModel DeleteBookFromStoreViewModel;
+        private RemoveBookFromStoreViewModel DeleteBookFromStoreViewModel;
 
         private ViewModelBase? _selectedUserView;
         public ViewModelBase? SelectedUserView
@@ -22,7 +22,7 @@ namespace BookStore.Presentation.ViewModels
         public EditStoreInventoryViewModel()
         {
             AddNewBookToStoreViewModel = new AddBookToStoreInventoryViewModel();
-            DeleteBookFromStoreViewModel = new DeleteBookFromStoreViewModel();
+            DeleteBookFromStoreViewModel = new RemoveBookFromStoreViewModel();
             ShowAddBooksCommand = new RelayCommand(SetToAddBookView);
             ShowDeleteBooksCommand = new RelayCommand(SetDeleteBookView);
         }

@@ -28,15 +28,27 @@ namespace BookStore.Presentation.ConnectionDBHandler
             return new ObservableCollection<Publisher>(getPublishers);
         }
 
-        public static async Task<ObservableCollection<Book>> GetAllBooksFromDb(int selectedStore)
+        public static async Task<ObservableCollection<Book>> GetAllBooksFromDbAsync(int selectedStore)
         {
             using var db = new BookStoreContext();
 
-            var booksNotInStore = db.Books
+            var booksNotInStore = await db.Books
                                   .Where(b => !db.BookStoreInventories
                                   .Any(bsi => bsi.Isbn13 == b.Isbn13 && bsi.StoreId == selectedStore))
-                                  .ToList();
+                                  .ToListAsync();
             return new ObservableCollection<Book>(booksNotInStore);
+        }
+
+        public static async Task<ObservableCollection<Book>> GetBooksInSelectedStoreAsync(int selectedStore)
+        {
+            using var db = new BookStoreContext();
+
+            var booksFromStore = await db.Books
+                                   .Where(b => db.BookStoreInventories
+                                   .Any(bsi => bsi.Isbn13 == b.Isbn13 && bsi.StoreId == selectedStore))
+                                   .ToListAsync();
+
+            return new ObservableCollection<Book>(booksFromStore);
         }
 
         

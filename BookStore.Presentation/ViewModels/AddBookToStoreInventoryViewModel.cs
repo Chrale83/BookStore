@@ -36,6 +36,7 @@ namespace BookStore.Presentation.ViewModels
             set
             {
                 _SelectedBook = value;
+                OnPropertyChanged();
                 AddBookToStoreCommand.RaiseCanExectueChanged();
             }
         }
@@ -59,13 +60,13 @@ namespace BookStore.Presentation.ViewModels
         {
             if (SelectedStore != null)
             {
-                AllBooksInStores = await GetDataFromDbHandler.GetAllBooksFromDb(SelectedStore.Id);
+                AllBooksInStores = await GetDataFromDbHandler.GetAllBooksFromDbAsync(SelectedStore.Id);
                 OnPropertyChanged(nameof(AllBooksInStores));
             }
         }
         public async void SaveBookToStore(object? arg)
         {
-            await DataBaseChangeHandler.AddBookToStore(SelectedBook.Isbn13, SelectedStore.Id);
+            await SetDataToDbHandler.AddBookToStore(SelectedBook.Isbn13, SelectedStore.Id);
             GetAllBooks();
             OnPropertyChanged(nameof(AllBooksInStores));
         }

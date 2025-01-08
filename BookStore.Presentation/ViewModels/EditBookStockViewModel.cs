@@ -147,7 +147,7 @@ namespace BookStore.Presentation.ViewModels
 
         private async void UpdateBookStoreStock(object obj)
         {
-            await DataBaseChangeHandler.UpdateBookStoreDataBaseStock(SelectedStore.Id, SelectedBook.Isbn13, BookStockCounter);
+            await SetDataToDbHandler.UpdateBookStoreDataBaseStock(SelectedStore.Id, SelectedBook.Isbn13, BookStockCounter);
 
             await UpdateBookDatas();
             
@@ -156,7 +156,7 @@ namespace BookStore.Presentation.ViewModels
 
         public async Task UpdateBookDatas()
         {
-            BookDatas = await DataBaseChangeHandler.LoadBookTitles(SelectedStore);
+            BookDatas = await SetDataToDbHandler.LoadBookTitles(SelectedStore);
         }
         private void CheckWhatTextForButton()
         {

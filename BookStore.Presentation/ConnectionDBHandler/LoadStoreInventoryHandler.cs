@@ -13,8 +13,6 @@ namespace BookStore.Presentation.ConnectionDBHandler
         {
             try
             {
-
-
                 if (selectedStore.HasValue)
                 {
 

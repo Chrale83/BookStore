@@ -201,7 +201,7 @@ namespace BookStore.Presentation.ViewModels
                 //Authors = new List<Author> { SelectedAuthor}
             };
 
-            DataBaseChangeHandler.SaveNewBookToDb(book, SelectedAuthor);
+            SetDataToDbHandler.SaveNewBookToDb(book, SelectedAuthor);
 
             
         }
