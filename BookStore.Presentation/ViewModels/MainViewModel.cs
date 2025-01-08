@@ -16,7 +16,7 @@ namespace BookStore.Presentation.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        public EditStoreInventoryViewModel EditStoreInventoryViewModel { get; }
         public MenuViewModel MenuViewModel { get;  }
         public InventoryViewModel InventoryViewModel { get;  }
         public EditBookStockViewModel EditBookStockViewModel { get;  }
@@ -25,13 +25,17 @@ namespace BookStore.Presentation.ViewModels
         public RelayCommand? ShowEditBookCommand { get; private set; }
         public RelayCommand? CloseApplicationCommand { get; private set; }
         public RelayCommand? ShowAddNewBookCommand { get; private set; }
+
+        public RelayCommand? ShowEditStoreInventoryCommand { get; private set; }
+
         public MainViewModel()
         {
             MenuViewModel = new MenuViewModel();
             InventoryViewModel = new InventoryViewModel();
             EditBookStockViewModel = new EditBookStockViewModel();
             AddNewBookViewModel = new AddNewBookViewModel();
-            
+            EditStoreInventoryViewModel = new EditStoreInventoryViewModel(); //<-- user control x2
+
             SelectedViewModel = InventoryViewModel;
             StartRelayCommands();
         }
@@ -42,6 +46,12 @@ namespace BookStore.Presentation.ViewModels
             ShowEditBookCommand = new RelayCommand(ChangeToEditBookView);
             CloseApplicationCommand = new RelayCommand(ShutDownApplication);
             ShowAddNewBookCommand = new RelayCommand(ChangeToAddNewBook);
+            ShowEditStoreInventoryCommand = new RelayCommand(ChangeToEditStoreInventory);
+        }
+
+        private void ChangeToEditStoreInventory(object? obj)
+        {
+            SelectedViewModel = EditStoreInventoryViewModel;
         }
 
         private void ShutDownApplication(object? obj)
@@ -63,6 +73,7 @@ namespace BookStore.Presentation.ViewModels
             SelectedViewModel = AddNewBookViewModel;
         }
 
+        
 
     }
 }

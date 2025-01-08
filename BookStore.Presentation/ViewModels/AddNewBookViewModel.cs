@@ -196,7 +196,7 @@ namespace BookStore.Presentation.ViewModels
                 Price = Price,
                 Pages = Pages,
                 DateReleased = DateRealesed,
-                Publisher = SelectedPublisher
+                PublisherId = SelectedPublisher.Id
 
                 //Authors = new List<Author> { SelectedAuthor}
             };

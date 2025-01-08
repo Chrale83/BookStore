@@ -27,7 +27,9 @@
             <Button Content="Add new book" Margin="4,6,4,0" 
                     Command="{Binding DataContext.ShowAddNewBookCommand, 
                                RelativeSource={RelativeSource AncestorType=Window}}"  />
-
+            <Button Content="Edit Store" Margin="4,6,4,0" 
+        Command="{Binding DataContext.ShowEditStoreInventoryCommand, 
+                   RelativeSource={RelativeSource AncestorType=Window}}"  />
             <Button Content="Quit" 
                     Command="{Binding DataContext.CloseApplicationCommand, 
                             RelativeSource={RelativeSource AncestorType=Window}}" 
@@ -35,3 +37,4 @@
         </StackPanel>
     </Grid>
 </UserControl>
+

@@ -19,6 +19,9 @@
         <DataTemplate DataType="{x:Type ViewModels:AddNewBookViewModel}">
             <View:AddNewBooksView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:EditStoreInventoryViewModel}">
+            <View:EditStoreInventoryView />
+        </DataTemplate>
 
     </Window.Resources>
     <Window.DataContext>

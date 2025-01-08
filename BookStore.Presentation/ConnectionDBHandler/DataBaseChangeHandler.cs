@@ -54,13 +54,13 @@ namespace BookStore.Presentation.ConnectionDBHandler
                 if (editValue)
                 {
                     UpdateBookData.StockCount += bookStockCounter;
-                    await db.SaveChangesAsync();    
-                }    
+                    await db.SaveChangesAsync();
+                }
             }
             catch
             {
                 var ErrorWindow = new ErrorNoConnectionToDataBase();
-                ErrorWindow.ShowDialog();      
+                ErrorWindow.ShowDialog();
             }
         }
 
@@ -81,18 +81,38 @@ namespace BookStore.Presentation.ConnectionDBHandler
             if (book != null && selectedAuthor != null)
             {
 
+                using var db = new BookStoreContext();
+
+                db.Authors.Attach(selectedAuthor);
+
+                book.Authors.Add(selectedAuthor);
+                db.Books.Add(book);
+
+                db.SaveChanges();
+            }
+        }
+
+        public static async Task AddBookToStore(string SelectedBook, int selectedStore)
+        {
             using var db = new BookStoreContext();
 
-            db.Authors.Attach(selectedAuthor);
-            
-            book.Authors.Add(selectedAuthor);
-            db.Books.Add(book);
+            var newBookToStore = new BookStoreInventory
+            {
+                StoreId = selectedStore,
+                Isbn13 = SelectedBook,
+                StockCount = 0,
 
-            db.SaveChanges();
-            }
+            };
+
+            await db.BookStoreInventories.AddAsync(newBookToStore);
+            await db.SaveChangesAsync();
         }
     }
 }
+
+
+
+
 
 
 
