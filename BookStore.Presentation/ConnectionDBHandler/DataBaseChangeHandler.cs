@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace BookStore.Presentation.ConnectionDBHandler
 {
-    class EditBooksHandler
+    class DataBaseChangeHandler
     {
         public static async Task<ObservableCollection<BookDataModel>>? LoadBookTitles(Store selectedStore)
         {
@@ -75,8 +75,25 @@ namespace BookStore.Presentation.ConnectionDBHandler
 
             return tempTotalvalue >= 0;
         }
+
+        public static void SaveNewBookToDb(Book book, Author selectedAuthor)
+        {
+            if (book != null && selectedAuthor != null)
+            {
+
+            using var db = new BookStoreContext();
+
+            db.Authors.Attach(selectedAuthor);
+            
+            book.Authors.Add(selectedAuthor);
+            db.Books.Add(book);
+
+            db.SaveChanges();
+            }
+        }
     }
 }
+
 
 
 

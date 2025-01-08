@@ -39,19 +39,20 @@ public partial class BookStoreContext : DbContext
     {
         var config = new ConfigurationBuilder().AddUserSecrets<BookStoreContext>().Build();
 
-        var connectionstring = new SqlConnectionStringBuilder()
-        {
-            ServerSPN = config["ServerName"],
-            InitialCatalog = config["DataBaseName"],
-            TrustServerCertificate = true,
-            IntegratedSecurity = true
-        }.ToString();
+        //var connectionstring = new SqlConnectionStringBuilder()
+        //{
+        //    ServerSPN = config["ServerName"],
+        //    InitialCatalog = config["DataBaseName"],
+        //    TrustServerCertificate = true,
+        //    IntegratedSecurity = true
+        //}.ToString();
 
-        optionsBuilder.UseSqlServer(connectionstring);
+        optionsBuilder.UseSqlServer("Initial Catalog=labb1_bokhandel;Integrated Security=True;Trust Server Certificate=True;Server SPN=localhost");
+        
+        //optionsBuilder.UseSqlServer(connectionstring);
 
         //var connectionstring = config["ConnectionString"];
         //optionsBuilder.UseSqlServer("connectionstring");
-        //optionsBuilder.UseSqlServer("Initial Catalog=labb1_bokhandel;Integrated Security=True;Trust Server Certificate=True;Server SPN=localhost");
     }
 
 

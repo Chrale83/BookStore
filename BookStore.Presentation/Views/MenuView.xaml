@@ -11,7 +11,7 @@
 
     <Grid Background="{StaticResource MainAppColor}"  VerticalAlignment="Stretch">
         <StackPanel>
-            
+
             <ComboBox Margin="4,0.9,4,0"
                       
                       ItemsSource="{Binding Stores}"
@@ -24,7 +24,10 @@
             <Button Content="Edit Inventory" Margin="4,6,4,0" 
                     Command="{Binding DataContext.ShowEditBookCommand, 
                               RelativeSource={RelativeSource AncestorType=Window}}"  />
-            
+            <Button Content="Add new book" Margin="4,6,4,0" 
+                    Command="{Binding DataContext.ShowAddNewBookCommand, 
+                               RelativeSource={RelativeSource AncestorType=Window}}"  />
+
             <Button Content="Quit" 
                     Command="{Binding DataContext.CloseApplicationCommand, 
                             RelativeSource={RelativeSource AncestorType=Window}}" 

@@ -27,8 +27,6 @@ namespace BookStore.Presentation.ViewModels
             {
                 _searchText = value;
                 OnPropertyChanged();
-
-
             }
         }
         public ObservableCollection<BookDataModel>? BookDatas
@@ -149,7 +147,7 @@ namespace BookStore.Presentation.ViewModels
 
         private async void UpdateBookStoreStock(object obj)
         {
-            await EditBooksHandler.UpdateBookStoreDataBaseStock(SelectedStore.Id, SelectedBook.Isbn13, BookStockCounter);
+            await DataBaseChangeHandler.UpdateBookStoreDataBaseStock(SelectedStore.Id, SelectedBook.Isbn13, BookStockCounter);
 
             await UpdateBookDatas();
             
@@ -158,7 +156,7 @@ namespace BookStore.Presentation.ViewModels
 
         public async Task UpdateBookDatas()
         {
-            BookDatas = await EditBooksHandler.LoadBookTitles(SelectedStore);
+            BookDatas = await DataBaseChangeHandler.LoadBookTitles(SelectedStore);
         }
         private void CheckWhatTextForButton()
         {

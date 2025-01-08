@@ -16,6 +16,9 @@
         <DataTemplate DataType="{x:Type ViewModels:EditBookStockViewModel}">
             <View:EditBookStockView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:AddNewBookViewModel}">
+            <View:AddNewBooksView />
+        </DataTemplate>
 
     </Window.Resources>
     <Window.DataContext>
@@ -33,7 +36,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <View:MenuView Grid.Column="0" VerticalAlignment="Stretch" DataContext="{Binding MenuViewModel}"/>
-            <!--<View:AddBookView Grid.Column="1" VerticalAlignment="Stretch"/>-->
+            <!--<View:AddNewBooksView Grid.Column="1" VerticalAlignment="Stretch"/>-->
             <ContentControl Grid.Column="1" Content="{Binding SelectedViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
     </Grid>
